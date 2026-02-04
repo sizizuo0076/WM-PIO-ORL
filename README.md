@@ -2,7 +2,7 @@
 
 This repository provides an implementation of a three-stage model-based offline reinforcement learning framework for industrial process optimization, inspired by recent advances in diffusion-based world models and hybrid data-driven policy learning.
 
-The overall pipeline follows Training World Models→ Constructing a Hybrid Experience Space → Offline RL Optimization paradigm, which is particularly suitable for process industry scenarios where online exploration is costly or infeasible.
+The overall pipeline adheres to a structured paradigm: **Training World Models→ Constructing a Hybrid Experience Space → Offline RL Optimization paradigm**. This approach is particularly suited to process industry applications, where online exploration is often prohibitively expensive or practically infeasible.
 
 ---
 
@@ -33,7 +33,7 @@ The overall pipeline follows Training World Models→ Constructing a Hybrid Expe
 
 ## Data Availability (Confidentiality Notice)
 
- **Important:** Due to industrial data confidentiality and privacy constraints, the complete dataset used in our experiments **cannot be publicly released**.
+ **Important:** Due to industrial data confidentiality and privacy constraints, **we are not able to publicly release the complete dataset** used in our experiments.
 
 - This repository includes only **a small subset / partial example dataset** to demonstrate the required data format and to allow end-to-end execution.
 - The example data is **not sufficient** to reproduce the full experimental results reported in the paper.
@@ -92,4 +92,9 @@ python main.py --stage 3 --h5_path ./results/h5/<folder_name>/hybrid_buffer.h5
 ```
 
 **Outputs:**
+
 - RL checkpoints: ./ckpt/rl/<folder_name>/
+
+**Citing Our Work:**
+
+[1] Y Yin, R. Chiong, C. Deng, L. Wang, D. Niyato and W. Wang, “World Model-driven Process Industry Operations: An Offline Reinforcement Learning Solution based on Conditional Diffusion,”  to appear in Computers in Industry, 2026.
