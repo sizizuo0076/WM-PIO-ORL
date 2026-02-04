@@ -1,1 +1,95 @@
-# WM-PIO-ORL
+# World Model-driven Process Industry Operations: An Offline Reinforcement Learning
+
+This repository provides an implementation of a three-stage model-based offline reinforcement learning framework for industrial process optimization, inspired by recent advances in diffusion-based world models and hybrid data-driven policy learning.
+
+The overall pipeline follows Training World Models→ Constructing a Hybrid Experience Space → Offline RL Optimization paradigm, which is particularly suitable for process industry scenarios where online exploration is costly or infeasible.
+
+---
+
+## Framework Overview
+
+<p align="center">
+  <img src="fig/framework.png" width="900"/>
+</p>
+<p align="center">
+  <em>Figure 1: Three-stage framework: (1) diffusion-based world model learning, (2) hybrid replay buffer generation (real + model-generated), and (3) offline RL policy optimization using the hybrid buffer.</em>
+</p>
+
+---
+
+## Key Features
+
+- **Stage 1 (World Model Learning)**  
+  Trains a diffusion-based dynamics model for next-state prediction and a reward/quality predictor using offline process trajectories.
+
+- **Stage 2 (Hybrid Buffer Construction)**  
+  Uses the trained world model to generate imagined transitions and constructs a hybrid replay buffer mixing **real** and **model-generated** data.  
+  The hybrid buffer is saved in **HDF5 (`.h5`)** format for efficient downstream training.
+
+- **Stage 3 (Offline Reinforcement Learning)**  
+  Trains an offline actor–critic agent (TD3 / TD3+BC style) using the saved hybrid replay buffer, without interacting with the real system.
+
+---
+
+## Data Availability (Confidentiality Notice)
+
+ **Important:** Due to industrial data confidentiality and privacy constraints, the complete dataset used in our experiments **cannot be publicly released**.
+
+- This repository includes only **a small subset / partial example dataset** to demonstrate the required data format and to allow end-to-end execution.
+- The example data is **not sufficient** to reproduce the full experimental results reported in the paper.
+- To reproduce full results, please replace the example dataset with your own proprietary or public dataset following the same structure.
+
+---
+
+## Installation
+
+Create a Python environment and install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+## Quick Start
+
+All stages are executed via main.py by setting --stage.
+
+### Stage 1: Train the World Model
+```bash
+python main.py --stage 1
+```
+
+**Outputs:**
+
+- Checkpoints: ./ckpt/<folder_name>/eps_model_*.pth, pred_reward_model_*.pth
+Training logs: ./results/excel/<folder_name>/
+
+### Stage 2: Build Hybrid Replay Buffer (.h5)
+```bash
+python main.py --stage 2
+```
+**Outputs:**
+- Hybrid buffer: ./results/h5/<folder_name>/hybrid_buffer.h5
+
+**The saved .h5 contains:**
+
+- trajectorys: shape [N, L, state_dim]
+- actions: shape [N, action_dim]
+- rewards: shape [N, 1]
+- next_states: shape [N, state_dim]
+
+### Stage 3: Offline RL Training
+```bash
+python main.py --stage 3
+```
+**By default, Stage 3 reads:**
+- ./results/h5/<folder_name>/hybrid_buffer.h5
+
+**You can also specify a custom path**
+```bash
+python main.py --stage 3 --h5_path ./results/h5/<folder_name>/hybrid_buffer.h5
+
+```
+
+**Outputs:**
+- RL checkpoints: ./ckpt/rl/<folder_name>/
