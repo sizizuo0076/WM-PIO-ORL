@@ -54,15 +54,28 @@ pip install -r requirements.txt
 
 All stages are executed via main.py by setting --stage.
 
-### Stage 1: Train the World Model
+### Stage 1: Train the World Model (Multi-step & Autoregressive Training)
+
+Stage 1 trains the diffusion-based world model and the reward/quality predictor.
+This implementation supports **multi-step unrolled prediction** and optional
+**autoregressive (self-feeding) training**.
+
+- **Multi-step prediction:** controlled by `--k_unroll` (K-step unroll length).  
+- **Autoregressive training (optional):** enabled by `--enable_self_feeding`.
+
+#### (A) Multi-step prediction (K-step unroll)
 ```bash
-python main.py --stage 1
+python main.py --stage 1 --k_unroll 5
+```
+#### (B) Autoregressive training (self-feeding) on top of K-step unroll
+```bash
+python main.py --stage 1 --k_unroll 5 --enable_self_feeding
 ```
 
 **Outputs:**
 
 - Checkpoints: ./ckpt/<folder_name>/eps_model_*.pth, pred_reward_model_*.pth
-Training logs: ./results/excel/<folder_name>/
+- Training logs: ./results/excel/<folder_name>/
 
 ### Stage 2: Build Hybrid Replay Buffer (.h5)
 ```bash
@@ -98,3 +111,4 @@ python main.py --stage 3 --h5_path ./results/h5/<folder_name>/hybrid_buffer.h5
 **Citing Our Work:**
 
 [1] Y Yin, R. Chiong, C. Deng, L. Wang, D. Niyato and W. Wang, “World Model-driven Process Industry Operations: An Offline Reinforcement Learning Solution based on Conditional Diffusion,”  to appear in Computers in Industry, 2026.
+
