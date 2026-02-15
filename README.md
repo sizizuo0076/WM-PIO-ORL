@@ -1,4 +1,4 @@
-# World Model-driven Process Industry Operations: An Offline Reinforcement Learning
+# World Model-driven Process Industry Operations: An Offline Reinforcement Learning Solution
 
 This repository provides an implementation of a three-stage model-based offline reinforcement learning framework for industrial process optimization, inspired by recent advances in diffusion-based world models and hybrid data-driven policy learning.
 
@@ -111,4 +111,5 @@ python main.py --stage 3 --h5_path ./results/h5/<folder_name>/hybrid_buffer.h5
 **Citing Our Work:**
 
 [1] Y Yin, R. Chiong, C. Deng, L. Wang, D. Niyato and W. Wang, “World Model-driven Process Industry Operations: An Offline Reinforcement Learning Solution based on Conditional Diffusion,”  to appear in Computers in Industry, 2026.
+
 
